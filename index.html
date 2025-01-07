@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penca de Carreras de Caballos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+
+        /* Menú inicial */
+        #setupScreen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(to bottom, #87CEEB, #f7f9fc);
+        }
+
+        #setupScreen h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #004aad;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #setupScreen img {
+            width: 90%;
+            max-width: 400px;
+            height: auto;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        #setupScreen form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        #setupScreen label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        #setupScreen input {
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 20px);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        #setupScreen button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 1.2em;
+            background-color: #004aad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        #setupScreen button:hover {
+            box-shadow: 0 8px 15px rgba(0, 74, 173, 0.5);
+            transform: translateY(-3px);
+        }
+
+        /* Pantalla principal */
+        #mainScreen {
+            display: none;
+            padding: 20px;
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: #004aad;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            font-size: 1em;
+        }
+
+        th {
+            background-color: #004aad;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            background-color: #f7f9fc;
+            transition: background-color 0.3s ease;
+        }
+
+        td:hover {
+            background-color: #eaf5ff;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 90%;
+            text-align: center;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .result-inputs {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .info-box {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eaf5ff;
+            border-left: 5px solid #004aad;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .medal-info-box {
+            margin-top: 10px;
+            padding: 15px;
+            background-color: #fff3e0;
+            border-left: 5px solid #ffa726;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .medal {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        .gold {
+            background-color: gold;
+            border-radius: 50%;
+        }
+
+        .silver {
+            background-color: silver;
+            border-radius: 50%;
+        }
+
+        .bronze {
+            background-color: #cd7f32;
+            border-radius: 50%;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .button-container button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #004aad;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        .button-container button:hover {
+            box-shadow: 0 8px 15px rgba(0, 74, 173, 0.5);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla inicial -->
+    <div id="setupScreen">
+        <h1>Configurar Penca de Carreras</h1>
+        <img src="https://i.pinimg.com/originals/e3/09/df/e309df476a3e5180d4386ccba4dd8566.jpg" alt="Relento en Maroñas">
+        <form>
+            <label>Cantidad de personas:</label>
+            <input type="number" id="numPersons" min="1" max="20" value="10">
+            <label>Cantidad de carreras:</label>
+            <input type="number" id="numRaces" min="1" max="20" value="10">
+            <button type="button" onclick="initializePenca()">Iniciar Penca</button>
+        </form>
+    </div>
+
+    <!-- Pantalla principal -->
+    <div id="mainScreen">
+        <h1>Penca de Carreras de Caballos</h1>
+        <div class="button-container">
+            <button onclick="addPerson()">Agregar Persona</button>
+            <button onclick="finalizeEditing()">Finalizar Edición</button>
+            <button onclick="resetPenca()">Resetear</button>
+        </div>
+
+        <h2>Participantes y Apuestas</h2>
+        <table id="betsTable">
+            <thead>
+                <tr>
+                    <th>Persona</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <h2>Resultados por Carrera</h2>
+        <table id="resultsTable">
+            <thead>
+                <tr></tr>
+            </thead>
+            <tbody>
+                <tr class="results-row"></tr>
+            </tbody>
+        </table>
+
+        <div class="info-box">
+            <h3>Reglas de Puntuación:</h3>
+            <ul>
+                <li>6 puntos por el caballo ganador.</li>
+                <li>3 puntos por el segundo lugar.</li>
+                <li>1 punto por el tercer lugar.</li>
+                <li>12 puntos exclusivo si una sola persona apuesta por el caballo ganador.</li>
+                <li>18 puntos exclusivo si una sola persona apuesta por el caballo ganador y paga +10.</li>
+            </ul>
+        </div>
+
+        <div class="medal-info-box">
+            <h3>Referencias del Medallero:</h3>
+            <p>
+                <span class="medal gold"></span> Oro: Primer lugar<br>
+                <span class="medal silver"></span> Plata: Segundo lugar<br>
+                <span class="medal bronze"></span> Bronce: Tercer lugar
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let numPersons = 10;
+        let numRaces = 10;
+
+        function initializePenca() {
+            numPersons = parseInt(document.getElementById('numPersons').value);
+            numRaces = parseInt(document.getElementById('numRaces').value);
+
+            const betsTable = document.getElementById('betsTable');
+            const resultsTable = document.getElementById('resultsTable');
+            const resultsRow = document.querySelector('.results-row');
+
+            for (let i = 1; i <= numRaces; i++) {
+                betsTable.querySelector('thead tr').insertCell(-1).textContent = `Carrera ${i}`;
+                resultsTable.querySelector('thead tr').insertCell(-1).textContent = `Carrera ${i}`;
+                const resultsCell = document.createElement('td');
+                resultsCell.innerHTML = `
+                    <div class="result-inputs">
+                        <label>1°: <input type="number" class="ganador"></label>
+                        <label>2°: <input type="number" class="segundo"></label>
+                        <label>3°: <input type="number" class="tercero"></label>
+                        <label>+10 PE <input type="checkbox" class="pagaMas"></label>
+                    </div>
+                `;
+                resultsRow.appendChild(resultsCell);
+            }
+            betsTable.querySelector('thead tr').insertCell(-1).textContent = "Total Puntos";
+
+            for (let i = 0; i < numPersons; i++) {
+                const row = betsTable.querySelector('tbody').insertRow();
+                const nameCell = row.insertCell(0);
+                nameCell.innerHTML = `<input type='text' value='Persona ${i + 1}' class='editable-name'>`;
+                for (let j = 0; j < numRaces; j++) {
+                    const cell = row.insertCell(-1);
+                    cell.innerHTML = `<input type="number" class="apuesta">`;
+                }
+                row.insertCell(-1).textContent = "0";
+            }
+
+            document.getElementById('setupScreen').style.display = 'none';
+            document.getElementById('mainScreen').style.display = 'block';
+
+            document.addEventListener('input', calculatePoints);
+        }
+
+        function finalizeEditing() {
+            const confirmation = confirm("¿Estás seguro de finalizar la edición? ¡Suerte para todos!");
+            if (confirmation) {
+                const inputs = document.querySelectorAll('.apuesta');
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+                alert('La edición ha finalizado. ¡Que gane el mejor!');
+            }
+        }
+
+        function resetPenca() {
+            location.reload();
+        }
+
+        function addPerson() {
+            const betsTable = document.getElementById('betsTable').querySelector('tbody');
+            const newRow = betsTable.insertRow();
+            const nameCell = newRow.insertCell(0);
+            nameCell.innerHTML = `<input type='text' value='Persona ${betsTable.rows.length + 1}' class='editable-name'>`;
+            for (let i = 0; i < numRaces; i++) {
+                newRow.insertCell(-1).innerHTML = `<input type="number" class="apuesta">`;
+            }
+            newRow.insertCell(-1).textContent = "0";
+        }
+
+        function calculatePoints() {
+            const betsBody = document.getElementById('betsTable').querySelector('tbody');
+            const resultsRow = document.querySelector('.results-row');
+            const resultsCells = resultsRow.querySelectorAll('td');
+
+            const totalPointsArray = [];
+
+            for (let i = 0; i < betsBody.rows.length; i++) {
+                let totalPoints = 0;
+                const personRow = betsBody.rows[i];
+
+                for (let j = 1; j <= numRaces; j++) {
+                    const bet = personRow.cells[j].querySelector('input').value;
+                    const resultCell = resultsCells[j - 1];
+                    const ganador = resultCell.querySelector('.ganador').value;
+                    const segundo = resultCell.querySelector('.segundo').value;
+                    const tercero = resultCell.querySelector('.tercero').value;
+                    const pagaMas = resultCell.querySelector('.pagaMas').checked;
+
+                    if (ganador && segundo && tercero) {
+                        const allBets = Array.from(betsBody.rows).map(row => row.cells[j].querySelector('input').value);
+                        const isSoloWinner = allBets.filter(b => b === ganador).length === 1;
+
+                        if (bet === ganador) {
+                            totalPoints += isSoloWinner ? (pagaMas ? 18 : 12) : 6;
+                        }
+                        if (bet === segundo) totalPoints += 3;
+                        if (bet === tercero) totalPoints += 1;
+                    }
+                }
+
+                totalPointsArray.push(totalPoints);
+                personRow.cells[numRaces + 1].textContent = totalPoints;
+            }
+
+            assignMedals(totalPointsArray, betsBody);
+        }
+
+        function assignMedals(totalPointsArray, betsBody) {
+            Array.from(betsBody.rows).forEach(row => {
+                const totalCell = row.cells[numRaces + 1];
+                totalCell.innerHTML = totalCell.textContent.split(" ")[0];
+            });
+
+            const sortedPoints = [...new Set(totalPointsArray)].sort((a, b) => b - a);
+            const medals = ["gold", "silver", "bronze"];
+
+            sortedPoints.slice(0, 3).forEach((points, index) => {
+                Array.from(betsBody.rows).forEach(row => {
+                    const totalCell = row.cells[numRaces + 1];
+                    if (parseInt(totalCell.textContent) === points) {
+                        const medal = document.createElement("span");
+                        medal.className = `medal ${medals[index]}`;
+                        totalCell.appendChild(medal);
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
