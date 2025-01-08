@@ -165,7 +165,7 @@
             display: inline-block;
             width: 20px;
             height: 20px;
-            margin-right: 10px;
+            margin: 0;
         }
 
         .gold {
@@ -203,6 +203,14 @@
         .button-container button:hover {
             box-shadow: 0 8px 15px rgba(0, 74, 173, 0.5);
             transform: translateY(-3px);
+        }
+
+        /* Modificaciones para "Puntos Totales" */
+        td:last-child {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Espacio entre puntaje y medallas */
         }
 
         @media (max-width: 768px) {
@@ -257,6 +265,16 @@
             th, td {
                 padding: 5px;
                 font-size: 0.8em;
+            }
+
+            td:last-child {
+                flex-direction: row; /* Mantener elementos en fila */
+                font-size: 0.8em;
+            }
+
+            .medal {
+                width: 15px; /* Reducir tamaño de las medallas */
+                height: 15px;
             }
 
             .button-container button {
